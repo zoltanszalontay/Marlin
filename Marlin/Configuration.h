@@ -411,9 +411,8 @@
 #define TEMP_SENSOR_3 0
 #define TEMP_SENSOR_4 0
 #define TEMP_SENSOR_5 0
-// 2020.01.07. zoltansz; Disabled heated bed.
-// #define TEMP_SENSOR_BED 5
-#define TEMP_SENSOR_BED 0
+#define TEMP_SENSOR_BED 5
+// #define TEMP_SENSOR_BED 0
 #define TEMP_SENSOR_CHAMBER 0
 
 // Dummy thermistor constant temperature readings, for use with 998 and 999
@@ -523,7 +522,7 @@
  * heater. If your configuration is significantly different than this and you don't understand
  * the issues involved, don't use bed PID until someone else verifies that your hardware works.
  */
-//#define PIDTEMPBED
+#define PIDTEMPBED
 
 //#define BED_LIMIT_SWITCHING
 
@@ -536,14 +535,14 @@
 #define MAX_BED_POWER 255 // limits duty cycle to bed; 255=full current
 
 #if ENABLED(PIDTEMPBED)
-  //#define MIN_BED_POWER 0
+  #define MIN_BED_POWER 0
   //#define PID_BED_DEBUG // Sends debug data to the serial port.
 
   //120V 250W silicone heater into 4mm borosilicate (MendelMax 1.5+)
   //from FOPDT model - kp=.39 Tp=405 Tdead=66, Tc set to 79.2, aggressive factor of .15 (vs .1, 1, 10)
-  #define DEFAULT_bedKp 10.00
-  #define DEFAULT_bedKi .023
-  #define DEFAULT_bedKd 305.4
+  //#define DEFAULT_bedKp 10.00
+  //#define DEFAULT_bedKi .023
+  //#define DEFAULT_bedKd 305.4
 
   //120V 250W silicone heater into 4mm borosilicate (MendelMax 1.5+)
   //from pidautotune
@@ -552,6 +551,10 @@
   //#define DEFAULT_bedKd 1675.16
 
   // FIND YOUR OWN: "M303 E-1 C8 S90" to run autotune on the bed at 90 degreesC for 8 cycles.
+  // AM8: "M303 E-1 C10 S60"
+  #define DEFAULT_bedKp 97.1
+  #define DEFAULT_bedKi 1.41
+  #define DEFAULT_bedKd 1675.16
 #endif // PIDTEMPBED
 
 // @section extruder
@@ -592,7 +595,7 @@
  */
 
 // #define THERMAL_PROTECTION_HOTENDS // Enable thermal protection for all extruders
-#define THERMAL_PROTECTION_BED     // Enable thermal protection for the heated bed
+// #define THERMAL_PROTECTION_BED     // Enable thermal protection for the heated bed
 #define THERMAL_PROTECTION_CHAMBER // Enable thermal protection for the heated chamber
 
 //===========================================================================
@@ -734,8 +737,10 @@
  *                                      X, Y, Z, E0 [, E1[, E2...]]
  */
 // zoltansz
-// #define DEFAULT_AXIS_STEPS_PER_UNIT   { 40, 40, 400, 837 }
-#define DEFAULT_AXIS_STEPS_PER_UNIT   { 40, 40, 400, 51 }
+// A4988
+// #define DEFAULT_AXIS_STEPS_PER_UNIT   { 40, 40, 400, 6.3 }
+// TMC2208
+#define DEFAULT_AXIS_STEPS_PER_UNIT   { 40, 40, 400, 49.75 }
 
 /**
  * Default Max Feed Rate (mm/s)
@@ -1054,7 +1059,7 @@
 // @section extruder
 
 // For direct drive extruder v9 set to true, for geared extruder set to false.
-#define INVERT_E0_DIR false
+#define INVERT_E0_DIR true
 #define INVERT_E1_DIR false
 #define INVERT_E2_DIR false
 #define INVERT_E3_DIR false
@@ -1469,7 +1474,7 @@
 // zoltansz
 #define PREHEAT_1_LABEL       "PLA"
 #define PREHEAT_1_TEMP_HOTEND 190
-#define PREHEAT_1_TEMP_BED     60
+#define PREHEAT_1_TEMP_BED      0
 #define PREHEAT_1_FAN_SPEED     0 // Value from 0 to 255
 
 #define PREHEAT_2_LABEL       "ABS"
